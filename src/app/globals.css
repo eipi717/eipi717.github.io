@@ -1,33 +1,336 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @import "tailwindcss";
 @source "../**/*.{js,ts,jsx,tsx,mdx}";
 
+@custom-variant dark (&:is(.dark *));
+
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --font-mono: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* Warm Stone Neutrals - Light Mode */
+  --stone-50: #faf9f7;
+  --stone-100: #f5f3ef;
+  --stone-200: #ebe8e0;
+  --stone-300: #ddd8cd;
+  --stone-400: #c4bcaa;
+  --stone-500: #a89f8a;
+  --stone-600: #887f6c;
+  --stone-700: #6b6555;
+  --stone-800: #4a453d;
+  --stone-900: #2d2a25;
+  --stone-950: #1a1816;
+  
+  /* Brand Accents */
+  --violet-300: #c4b5fd;
+  --violet-400: #a78bfa;
+  --violet-500: #8b5cf6;
+  --violet-600: #7c3aed;
+  --violet-700: #6d28d9;
+  --violet-50: #f5f3ff;
+  --violet-100: #ede9fe;
+  --violet-900: #4c1d95;
+  
+  --emerald-300: #6ee7b7;
+  --emerald-400: #34d399;
+  --emerald-500: #10b981;
+  --emerald-600: #059669;
+  --emerald-700: #047857;
+  --emerald-50: #ecfdf5;
+  --emerald-100: #d1fae5;
+  --emerald-900: #064e3b;
+  
+  --amber-400: #fbbf24;
+  --amber-500: #f59e0b;
+  --amber-600: #d97706;
+  --amber-50: #fffbeb;
+  --amber-100: #fef3c7;
+  
+  /* Light Mode Palette */
+  --background: var(--stone-50);
+  --foreground: var(--stone-900);
+  --card: #ffffff;
+  --card-foreground: var(--stone-900);
+  --popover: #ffffff;
+  --popover-foreground: var(--stone-900);
+  --primary: var(--stone-900);
+  --primary-foreground: var(--stone-50);
+  --secondary: var(--stone-200);
+  --secondary-foreground: var(--stone-900);
+  --muted: var(--stone-200);
+  --muted-foreground: var(--stone-600);
+  --accent: var(--stone-200);
+  --accent-foreground: var(--stone-900);
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: var(--stone-300);
+  --input: var(--stone-300);
+  --ring: var(--stone-400);
+  
+  /* Persona Colors (default to violet) */
+  --persona-primary: var(--violet-600);
+  --persona-primary-light: var(--violet-500);
+  --persona-primary-lighter: var(--violet-400);
+  --persona-primary-bg: var(--violet-50);
+  --persona-primary-dark: var(--violet-700);
+  
+  /* Glow/Highlight */
+  --glow-amber: var(--amber-400);
+  --glow-amber-soft: var(--amber-100);
+  
+  /* Radius */
+  --radius-card: 1.5rem;
+  --radius-pill: 999px;
+  --radius-sm: 0.75rem;
+  
+  /* Font */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  
+  /* Transitions */
+  --transition-theme: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark {
+  /* Dark Mode Palette */
+  --background: var(--stone-950);
+  --foreground: var(--stone-50);
+  --card: var(--stone-900);
+  --card-foreground: var(--stone-50);
+  --popover: var(--stone-900);
+  --popover-foreground: var(--stone-50);
+  --primary: var(--stone-50);
+  --primary-foreground: var(--stone-950);
+  --secondary: var(--stone-800);
+  --secondary-foreground: var(--stone-50);
+  --muted: var(--stone-800);
+  --muted-foreground: var(--stone-400);
+  --accent: var(--stone-800);
+  --accent-foreground: var(--stone-50);
+  --border: var(--stone-800);
+  --input: var(--stone-800);
+  --ring: var(--stone-600);
+  
+  /* Persona Colors in Dark Mode */
+  --persona-primary: var(--violet-500);
+  --persona-primary-light: var(--violet-400);
+  --persona-primary-lighter: var(--violet-300);
+  --persona-primary-bg: rgba(139, 92, 246, 0.1);
+  --persona-primary-dark: var(--violet-600);
+  
+  /* Glow/Highlight */
+  --glow-amber-soft: rgba(251, 191, 36, 0.05);
+}
+
+/* Persona IT Mode */
+.persona-it {
+  --persona-primary: var(--emerald-600);
+  --persona-primary-light: var(--emerald-500);
+  --persona-primary-lighter: var(--emerald-400);
+  --persona-primary-bg: var(--emerald-50);
+  --persona-primary-dark: var(--emerald-700);
+}
+
+.persona-it.dark {
+  --persona-primary: var(--emerald-500);
+  --persona-primary-light: var(--emerald-400);
+  --persona-primary-lighter: var(--emerald-300);
+  --persona-primary-bg: rgba(16, 185, 129, 0.1);
+  --persona-primary-dark: var(--emerald-600);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  /* Persona Colors */
+  --color-persona-primary: var(--persona-primary);
+  --color-persona-primary-light: var(--persona-primary-light);
+  --color-persona-primary-lighter: var(--persona-primary-lighter);
+  --color-persona-primary-bg: var(--persona-primary-bg);
+  --color-persona-primary-dark: var(--persona-primary-dark);
+  
+  /* Stone Palette */
+  --color-stone-50: var(--stone-50);
+  --color-stone-100: var(--stone-100);
+  --color-stone-200: var(--stone-200);
+  --color-stone-300: var(--stone-300);
+  --color-stone-400: var(--stone-400);
+  --color-stone-500: var(--stone-500);
+  --color-stone-600: var(--stone-600);
+  --color-stone-700: var(--stone-700);
+  --color-stone-800: var(--stone-800);
+  --color-stone-900: var(--stone-900);
+  --color-stone-950: var(--stone-950);
+  
+  /* Violet Palette */
+  --color-violet-50: var(--violet-50);
+  --color-violet-100: var(--violet-100);
+  --color-violet-400: var(--violet-400);
+  --color-violet-500: var(--violet-500);
+  --color-violet-600: var(--violet-600);
+  --color-violet-700: var(--violet-700);
+  --color-violet-900: var(--violet-900);
+  
+  /* Emerald Palette */
+  --color-emerald-50: var(--emerald-50);
+  --color-emerald-100: var(--emerald-100);
+  --color-emerald-400: var(--emerald-400);
+  --color-emerald-500: var(--emerald-500);
+  --color-emerald-600: var(--emerald-600);
+  --color-emerald-700: var(--emerald-700);
+  --color-emerald-900: var(--emerald-900);
+  
+  /* Amber Palette */
+  --color-amber-50: var(--amber-50);
+  --color-amber-100: var(--amber-100);
+  --color-amber-400: var(--amber-400);
+  --color-amber-500: var(--amber-500);
+  --color-amber-600: var(--amber-600);
+  
+  /* Glow */
+  --color-glow-amber: var(--glow-amber);
+  --color-glow-amber-soft: var(--glow-amber-soft);
 }
 
-* {
-  box-sizing: border-box;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color var(--transition-theme), color var(--transition-theme);
+  }
+  
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+  
+  /* Smooth transitions for persona/theme changes */
+  * {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: var(--transition-theme);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Disable transitions when user prefers reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
 }
 
-body {
-  margin: 0;
-  font-family: var(--font-sans);
-  color: var(--foreground);
-  background: transparent;
-  -webkit-font-smoothing: antialiased;
+/* Typography */
+@layer base {
+  h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  h3 {
+    font-size: 1.875rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  p {
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+  
+  .text-body {
+    line-height: 1.7;
+  }
+  
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2.5rem;
+    }
+    h2 {
+      font-size: 2rem;
+    }
+    h3 {
+      font-size: 1.5rem;
+    }
+  }
 }
 
-::selection {
-  background-color: rgba(59, 130, 246, 0.25);
-  color: #e2e8f0;
+/* Utilities */
+@layer utilities {
+  .backdrop-blur-nav {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  
+  .grid-texture {
+    background-image: 
+      linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  
+  .dark .grid-texture {
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  }
+  
+  .noise-texture {
+    position: relative;
+  }
+  
+  .noise-texture::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+}
+
+html {
+  font-size: 16px;
 }

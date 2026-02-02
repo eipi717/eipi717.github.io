@@ -4,7 +4,7 @@ Backend Developer & IT Support Specialist portfolio built with Next.js 14 (App R
 
 ## Features
 - Dual persona toggle (Developer vs IT): content, timeline, and skills filter automatically.
-- Light/dark appearance toggle with accent theming (blue/emerald).
+- Light/dark appearance toggle with accent theming (violet/emerald).
 - Multi-page structure: Overview, About, Experience, Projects, Services, Contact.
 - Floating contact bar for quick email/phone/LinkedIn/GitHub actions.
 - Framer Motion transitions and Tailwind styling (CDN fallback is enabled while the local Tailwind pipeline is flaky).

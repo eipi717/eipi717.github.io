@@ -1,6 +1,5 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { ThemeName } from '@/lib/theme';
 
 export type Mode = 'dev' | 'it';
 export type Appearance = 'dark' | 'light';
@@ -8,7 +7,6 @@ export type Appearance = 'dark' | 'light';
 interface ModeContextType {
   mode: Mode;
   toggleMode: (selected: Mode) => void;
-  theme: ThemeName; // 'blue' or 'emerald'
   appearance: Appearance;
   toggleAppearance: () => void;
 }
@@ -41,10 +39,24 @@ export function ModeProvider({ children }: { children: ReactNode }) {
   const toggleMode = (selected: Mode) => setMode(selected);
   const toggleAppearance = () =>
     setAppearance((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  const theme = mode === 'dev' ? 'blue' : 'emerald';
+
+  useEffect(() => {
+    document.documentElement.dataset.appearance = appearance;
+    document.documentElement.style.colorScheme = appearance;
+  }, [appearance]);
+
+  useEffect(() => {
+    // Match `ref_project` conventions so global styles/utilities can be reused.
+    document.documentElement.classList.toggle("dark", appearance === "dark");
+  }, [appearance]);
+
+  useEffect(() => {
+    // Match `ref_project` conventions for persona styling hooks.
+    document.documentElement.classList.toggle("persona-it", mode === "it");
+  }, [mode]);
 
   return (
-    <ModeContext.Provider value={{ mode, toggleMode, theme, appearance, toggleAppearance }}>
+    <ModeContext.Provider value={{ mode, toggleMode, appearance, toggleAppearance }}>
       {children}
     </ModeContext.Provider>
   );

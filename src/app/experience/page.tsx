@@ -2,86 +2,74 @@
 
 import { useMode } from "@/context/ModeContext";
 import { experiences, personas } from "@/data/site";
-import { getAppearanceStyles, getThemeStyles } from "@/lib/theme";
-import clsx from "clsx";
 import { motion, useReducedMotion } from "framer-motion";
-import NextSteps from "@/components/NextSteps";
 
 export default function Experience() {
-  const { mode, theme, appearance } = useMode();
-  const themeClasses = getThemeStyles(theme);
-  const appearanceClasses = getAppearanceStyles(appearance);
+  const { mode } = useMode();
   const persona = personas[mode];
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useReducedMotion() ?? false;
   const filtered = experiences
     .filter((exp) => exp.category === mode)
     .sort((a, b) => a.order - b.order);
 
   return (
-    <div className={clsx("w-full", appearanceClasses.page)}>
-      <div className="min-h-screen max-w-4xl mx-auto px-6 py-12 space-y-10">
-      <header className="space-y-3">
-        <p className={clsx("uppercase tracking-[0.25em] text-sm", appearanceClasses.muted)}>Experience</p>
-        <h1 className={clsx("text-4xl font-bold", appearanceClasses.strong)}>Roles that {persona.verb}</h1>
-        <p className={clsx("text-lg", appearanceClasses.muted)}>Curated timeline aligned to the current persona.</p>
-      </header>
-
-      <div className="relative pl-8">
-        <div className={clsx("absolute left-0 top-0 bottom-0 w-px", appearance === 'light' ? "bg-slate-200" : "bg-slate-800")} />
-
-        {filtered.map((exp, index) => (
-          <motion.div
-            key={`${exp.company}-${exp.role}-${exp.date}`}
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={shouldReduceMotion ? { duration: 0 } : { delay: index * 0.08 }}
-            className="relative mb-10 last:mb-0"
-          >
-            <div
-              className="absolute left-[-2.3rem] top-2 w-4 h-4 rounded-full border-2"
-              style={{ background: mode === "dev" ? "#3b82f6" : "#10b981", borderColor: appearance === 'light' ? "#f8fafc" : "#020617" }}
-            />
-
-            <div className={clsx("rounded-2xl border p-5 space-y-2", appearanceClasses.card)}>
-              <div className="flex items-start justify-between gap-3">
-                <h3 className={clsx("text-xl font-semibold", appearanceClasses.strong)}>{exp.role}</h3>
-                <p className={clsx("text-sm font-mono", appearanceClasses.muted)}>{exp.date}</p>
-              </div>
-              <p className={clsx("text-sm font-medium", appearanceClasses.strong)}>{exp.company}</p>
-              <ul className={clsx("mt-3 space-y-2", appearanceClasses.muted)}>
-                {exp.bullets.map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <span className={clsx("mt-2 h-1.5 w-1.5 rounded-full", themeClasses.accentBg)} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
-        ))}
+    <div className="max-w-5xl mx-auto px-6 lg:px-8 pt-32 pb-24">
+      <div className="mb-16 text-center">
+        <h2 className="mb-4">Experience</h2>
+        <p className="text-xl text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
+          Roles and outcomes aligned with {persona.role.toLowerCase()} work.
+        </p>
       </div>
 
-      <NextSteps
-        title="See the work in action"
-        description={
-          mode === "dev"
-            ? "Dive into projects or review services tailored to the current focus."
-            : "Review services or start a conversation about upcoming needs."
-        }
-        links={
-          mode === "dev"
-            ? [
-                { href: "/projects", label: "Explore projects", variant: "primary" },
-                { href: "/services", label: "View services" },
-              ]
-            : [
-                { href: "/services", label: "View services", variant: "primary" },
-                { href: "/contact", label: "Start a conversation" },
-              ]
-        }
-      />
+      <div className="relative">
+        <div className="absolute left-0 md:left-8 top-0 bottom-0 w-0.5" style={{ backgroundColor: "var(--color-persona-primary)", opacity: 0.2 }} />
 
+        <div className="space-y-12">
+          {filtered.map((exp, index) => (
+            <motion.div
+              key={`${exp.company}-${exp.role}-${exp.date}`}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={shouldReduceMotion ? { duration: 0 } : { delay: index * 0.05 }}
+              className="relative pl-12 md:pl-24"
+            >
+              <div
+                className="absolute left-0 md:left-8 top-2 -translate-x-1/2 w-4 h-4 rounded-full border-4 border-stone-100 dark:border-stone-950 transition-colors duration-300"
+                style={{ backgroundColor: "var(--color-persona-primary)" }}
+              />
+
+              <div className="p-6 md:p-8 rounded-2xl bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-800 hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4 gap-2">
+                  <div>
+                    <h4 className="mb-1">{exp.role}</h4>
+                    <div className="text-stone-600 dark:text-stone-400">{exp.company}</div>
+                  </div>
+                  <div
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono border self-start"
+                    style={{
+                      borderColor: "var(--color-persona-primary)",
+                      color: "var(--color-persona-primary)",
+                      backgroundColor: "var(--color-persona-primary-bg)",
+                    }}
+                  >
+                    {exp.date}
+                  </div>
+                </div>
+
+                <ul className="space-y-2">
+                  {exp.bullets.map((bullet) => (
+                    <li key={bullet} className="flex gap-3 text-stone-700 dark:text-stone-300">
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: "var(--color-persona-primary)" }} />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
+

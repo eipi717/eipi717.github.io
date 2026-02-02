@@ -1,214 +1,208 @@
 "use client";
-import Link from 'next/link';
-import { useMode } from '@/context/ModeContext';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Menu, X, Code2, Server, Sun, Moon } from 'lucide-react';
-import { useState } from 'react';
-import clsx from 'clsx';
-import { getThemeStyles } from '@/lib/theme';
-import { usePathname } from 'next/navigation';
+import Link from "next/link";
+import { useMode } from "@/context/ModeContext";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Menu, X, Code2, Wrench, Sun, Moon } from "lucide-react";
+import { useEffect, useState } from "react";
+import clsx from "clsx";
+import { usePathname } from "next/navigation";
+import { personal } from "@/data/site";
 
 export default function Navbar() {
-  const { mode, toggleMode, theme, appearance, toggleAppearance } = useMode();
+  const { mode, toggleMode, appearance, toggleAppearance } = useMode();
   const [isOpen, setIsOpen] = useState(false);
-  const themeClasses = getThemeStyles(theme);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const shouldReduceMotion = useReducedMotion();
   const focusRing = clsx(
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
-    themeClasses.focusRing,
-    appearance === 'light' ? "focus-visible:ring-offset-white" : "focus-visible:ring-offset-slate-950"
+    "focus-visible:ring-[color:var(--color-persona-primary)]",
+    "focus-visible:ring-offset-[color:var(--color-background)]"
   );
 
+  useEffect(() => {
+    const onScroll = () => setScrolled((window.scrollY || 0) > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Experience', href: '/experience' },
-    { name: 'Services', href: '/services' },
-    { name: 'Contact', href: '/contact' },
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Experience", href: "/experience" },
+    { name: "Services", href: "/services" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
-    <nav className={clsx(
-      "fixed top-0 w-full z-50 backdrop-blur-xl border-b transition-colors duration-300",
-      appearance === 'light' ? "bg-white/70 border-slate-200" : "bg-slate-950/80 border-slate-800/60"
-    )}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center h-16">
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-6 flex-1">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-              <Link 
-                key={link.name} 
-                href={link.href}
-                className={clsx(
-                  "text-sm font-medium transition-colors",
-                  focusRing,
-                  isActive
-                    ? clsx(themeClasses.accentText, "font-semibold")
-                    : appearance === 'light'
-                      ? "text-slate-600 hover:text-slate-900"
-                      : "text-slate-300 hover:text-white"
-                )}
-              >
-                {link.name}
-              </Link>
-            )})}
+    <>
+      <nav
+        className={clsx(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          scrolled
+            ? clsx(
+                "backdrop-blur-nav shadow-sm border-b",
+                appearance === "light" ? "bg-stone-50/80 border-stone-300" : "bg-stone-950/80 border-stone-800"
+              )
+            : "bg-transparent border-b border-transparent"
+        )}
+      >
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            <Link href="/" className={clsx("text-xl font-semibold hover:opacity-80 transition-opacity", focusRing)}>
+              {personal.name}
+            </Link>
 
-          </div>
-
-          <div className="hidden md:flex items-center gap-4">
-            {/* The Toggle Switch */}
-            <button
-              type="button"
-              onClick={() => toggleMode(mode === 'dev' ? 'it' : 'dev')}
-              className={clsx(
-                'relative flex items-center w-28 sm:w-32 h-10 rounded-full cursor-pointer p-1 transition-colors duration-300',
-                focusRing,
-                appearance === 'light' ? 'border border-slate-200 bg-white/80' : 'border border-slate-800 bg-slate-900/70'
-              )}
-              role="switch"
-              aria-checked={mode === "it"}
-              aria-label={`Persona set to ${mode === "dev" ? "developer" : "IT specialist"}. Toggle persona`}
-            >
-              <motion.div
-                layout
-                transition={shouldReduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 300, damping: 25 }}
-                className={clsx(
-                  'absolute h-8 rounded-full',
-                  themeClasses.accentBg
-                )}
-                style={{
-                  width: '50%',
-                  left: mode === 'dev' ? '0.25rem' : 'calc(50% - 0.25rem)',
-                }}
-              />
-              <div className="relative z-10 grid grid-cols-2 w-full text-[11px] sm:text-xs font-semibold">
-                <div className={clsx("flex items-center justify-center gap-1", mode === 'dev' ? 'text-white' : 'text-slate-400')}>
-                  <Code2 size={14} />
-                  DEV
-                </div>
-                <div className={clsx("flex items-center justify-center gap-1", mode === 'it' ? 'text-white' : 'text-slate-400')}>
-                  <Server size={14} />
-                  IT
-                </div>
-              </div>
-            </button>
-
-            <button
-              onClick={toggleAppearance}
-              className={clsx(
-                "flex items-center justify-center h-10 w-10 rounded-full border transition-colors",
-                focusRing,
-                appearance === 'light' ? 'border-slate-200 bg-white/70 text-slate-700 hover:bg-slate-100' : 'border-slate-800 bg-slate-900/70 text-slate-300 hover:bg-slate-800'
-              )}
-              aria-label={appearance === "light" ? "Switch to dark mode" : "Switch to light mode"}
-            >
-              {appearance === 'light' ? <Moon size={16} /> : <Sun size={16} />}
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden ml-auto">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className={clsx(appearance === 'light' ? "text-slate-700" : "text-slate-300", focusRing)}
-              aria-expanded={isOpen}
-              aria-controls="mobile-nav"
-              aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-            >
-              {isOpen ? <X /> : <Menu />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Dropdown */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.2 }}
-            className={clsx(
-              "md:hidden border-b",
-              appearance === 'light' ? "bg-white/95 border-slate-200" : "bg-slate-900 border-slate-800"
-            )}
-            id="mobile-nav"
-          >
-            <div className="px-2 pt-2 pb-3 space-y-1">
+            <div className="hidden lg:flex items-center gap-8 flex-1 justify-center">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className={clsx(
-                    "block px-3 py-2 rounded-md text-base font-medium transition-colors",
-                    focusRing,
-                    isActive
-                      ? clsx(themeClasses.accentText, appearance === 'light' ? "bg-slate-100" : "bg-slate-800/70")
-                      : appearance === 'light'
-                        ? "text-slate-700 hover:text-slate-900 hover:bg-slate-100"
-                        : "text-slate-300 hover:text-white hover:bg-slate-800"
-                  )}
-                >
-                  {link.name}
-                </Link>
-              )})}
-              <div className="px-5 pt-4 pb-3">
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={clsx(
+                      "text-sm transition-colors",
+                      focusRing,
+                      isActive
+                        ? clsx("font-semibold", "text-[color:var(--color-persona-primary)]")
+                        : appearance === "light"
+                          ? "text-stone-700 hover:text-stone-950"
+                          : "text-stone-300 hover:text-stone-50"
+                    )}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className={clsx("relative p-1 rounded-[999px] flex items-center", appearance === "light" ? "bg-stone-200" : "bg-stone-800")}>
+                <div
+                  className="absolute top-1 bottom-1 rounded-[999px] transition-all duration-300 ease-out"
+                  style={{
+                    width: "calc(50% - 4px)",
+                    left: mode === "dev" ? "4px" : "calc(50% + 0px)",
+                    backgroundColor: "var(--color-persona-primary)",
+                  }}
+                />
                 <button
                   type="button"
-                  onClick={() => toggleMode(mode === 'dev' ? 'it' : 'dev')}
+                  onClick={() => toggleMode("dev")}
                   className={clsx(
-                    'relative flex items-center h-10 w-full rounded-full cursor-pointer p-1 transition-colors duration-300',
+                    "relative z-10 px-4 py-2 text-xs font-medium rounded-[999px] transition-colors flex items-center gap-1.5",
                     focusRing,
-                    appearance === 'light' ? 'border border-slate-200 bg-white' : 'border border-slate-800 bg-slate-900'
+                    mode === "dev" ? "text-white" : appearance === "light" ? "text-stone-600" : "text-stone-400"
                   )}
-                  role="switch"
-                  aria-checked={mode === "it"}
-                  aria-label={`Persona set to ${mode === "dev" ? "developer" : "IT specialist"}. Toggle persona`}
+                  aria-label="Switch to Developer persona"
                 >
-                  <motion.div
-                    layout
-                    className={clsx(
-                      'absolute h-8 rounded-full',
-                      themeClasses.accentBg
-                    )}
-                    transition={shouldReduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 300, damping: 25 }}
-                    style={{
-                      left: mode === 'dev' ? '0.25rem' : 'calc(50% - 0.25rem)',
-                      width: '50%',
-                    }}
-                  />
-                  <div className="relative z-10 flex justify-around w-full text-xs font-medium">
-                    <span className={mode === 'dev' ? 'text-white' : 'text-slate-400'}>DEV</span>
-                    <span className={mode === 'it' ? 'text-white' : 'text-slate-400'}>IT</span>
-                  </div>
+                  <Code2 className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">DEV</span>
                 </button>
                 <button
-                  onClick={toggleAppearance}
+                  type="button"
+                  onClick={() => toggleMode("it")}
                   className={clsx(
-                    "mt-3 w-full flex items-center justify-center gap-2 h-10 rounded-full border transition-colors",
+                    "relative z-10 px-4 py-2 text-xs font-medium rounded-[999px] transition-colors flex items-center gap-1.5",
                     focusRing,
-                    appearance === 'light'
-                      ? 'border-slate-200 bg-white text-slate-700 hover:bg-slate-100'
-                      : 'border-slate-800 bg-slate-900 text-slate-300 hover:bg-slate-800'
+                    mode === "it" ? "text-white" : appearance === "light" ? "text-stone-600" : "text-stone-400"
                   )}
-                  aria-label={appearance === "light" ? "Switch to dark mode" : "Switch to light mode"}
+                  aria-label="Switch to IT persona"
                 >
-                  {appearance === 'light' ? <Moon size={16} /> : <Sun size={16} />}
-                  {appearance === 'light' ? 'Dark mode' : 'Light mode'}
+                  <Wrench className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">IT</span>
                 </button>
               </div>
+
+              <button
+                type="button"
+                onClick={toggleAppearance}
+                className={clsx(
+                  "p-2.5 rounded-full transition-colors",
+                  focusRing,
+                  appearance === "light" ? "bg-stone-200 text-stone-700 hover:bg-stone-300" : "bg-stone-800 text-stone-300 hover:bg-stone-700"
+                )}
+                aria-label={`Switch to ${appearance === "light" ? "dark" : "light"} mode`}
+              >
+                {appearance === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsOpen((prev) => !prev)}
+                className={clsx(
+                  "lg:hidden p-2.5 rounded-full transition-colors",
+                  focusRing,
+                  appearance === "light" ? "bg-stone-200 text-stone-700 hover:bg-stone-300" : "bg-stone-800 text-stone-300 hover:bg-stone-700"
+                )}
+                aria-expanded={isOpen}
+                aria-label="Toggle menu"
+              >
+                {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              </button>
             </div>
-          </motion.div>
-        )}
+          </div>
+        </div>
+      </nav>
+
+      <AnimatePresence>
+        {isOpen ? (
+          <>
+            <motion.div
+              initial={shouldReduceMotion ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.15 }}
+              className="fixed inset-0 bg-stone-900/50 backdrop-blur-sm z-40 lg:hidden"
+              onClick={() => setIsOpen(false)}
+            />
+            <motion.div
+              initial={shouldReduceMotion ? false : { opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.2 }}
+              className={clsx(
+                "fixed top-20 left-0 right-0 bottom-0 z-40 lg:hidden overflow-y-auto",
+                appearance === "light" ? "bg-stone-50" : "bg-stone-950"
+              )}
+            >
+              <div className="px-6 py-8">
+                <div className="flex flex-col gap-2">
+                  {navLinks.map((link) => {
+                    const isActive = pathname === link.href;
+                    return (
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className={clsx(
+                          "text-left text-lg py-4 px-4 rounded-xl transition-colors",
+                          focusRing,
+                          isActive
+                            ? clsx("text-[color:var(--color-persona-primary)]", appearance === "light" ? "bg-stone-100" : "bg-stone-900")
+                            : appearance === "light"
+                              ? "text-stone-800 hover:bg-stone-200"
+                              : "text-stone-200 hover:bg-stone-900"
+                        )}
+                      >
+                        {link.name}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </motion.div>
+          </>
+        ) : null}
       </AnimatePresence>
-    </nav>
+    </>
   );
 }

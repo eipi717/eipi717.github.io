@@ -1,118 +1,125 @@
 "use client";
 
-import { useMode } from "@/context/ModeContext";
+import { freelance } from "@/data/freelance";
 import { personal } from "@/data/site";
-import { getAppearanceStyles, getThemeStyles } from "@/lib/theme";
-import clsx from "clsx";
+import { Calendar, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
-import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
-import type { ReactNode } from "react";
 
 export default function ContactPage() {
-  const { theme, appearance } = useMode();
-  const themeClasses = getThemeStyles(theme);
-  const appearanceClasses = getAppearanceStyles(appearance);
-  const focusRing = clsx(
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
-    themeClasses.focusRing,
-    appearance === "light" ? "focus-visible:ring-offset-white" : "focus-visible:ring-offset-slate-950"
-  );
-
   return (
-    <div className={clsx("w-full", appearanceClasses.page)}>
-      <div className="min-h-screen max-w-4xl mx-auto px-6 py-12 space-y-8">
-      <header className="space-y-3">
-        <p className={clsx("uppercase tracking-[0.25em] text-sm", appearanceClasses.muted)}>Contact</p>
-        <h1 className={clsx("text-4xl font-bold", appearanceClasses.strong)}>Let&apos;s collaborate</h1>
-        <p className={clsx("text-lg", appearanceClasses.muted)}>Pick your channel; I respond quickly.</p>
-      </header>
+    <div className="max-w-5xl mx-auto px-6 lg:px-8 pt-32 pb-24">
+      <div className="mb-16 text-center">
+        <h2 className="mb-4">Let’s work together</h2>
+        <p className="text-xl text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
+          Share your goals, timeline, and budget range — I’ll respond with a plan within 48 hours.
+        </p>
+      </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-3 gap-6 mb-12">
         <ContactCard
-          href={`mailto:${personal.email}`}
+          icon={<Mail className="w-5 h-5" />}
           label="Email"
           value={personal.email}
-          icon={<Mail size={18} />}
-          appearanceClasses={appearanceClasses}
-          themeClasses={themeClasses}
-          focusRing={focusRing}
+          href={`mailto:${personal.email}?subject=Project%20Inquiry`}
         />
         <ContactCard
-          href={`tel:${personal.phone}`}
+          icon={<Phone className="w-5 h-5" />}
           label="Phone"
           value={personal.phone}
-          icon={<Phone size={18} />}
-          appearanceClasses={appearanceClasses}
-          themeClasses={themeClasses}
-          focusRing={focusRing}
+          href={`tel:${personal.phone}`}
         />
         <ContactCard
-          href={personal.links.linkedin}
-          label="LinkedIn"
-          value="linkedin.com/in/nicholaschho"
-          icon={<Linkedin size={18} />}
-          appearanceClasses={appearanceClasses}
-          themeClasses={themeClasses}
-          focusRing={focusRing}
-          external
-        />
-        <ContactCard
-          href={personal.links.github}
-          label="GitHub"
-          value="github.com/eipi717"
-          icon={<Github size={18} />}
-          appearanceClasses={appearanceClasses}
-          themeClasses={themeClasses}
-          focusRing={focusRing}
-          external
+          icon={<Calendar className="w-5 h-5" />}
+          label="Schedule"
+          value="Book a 20‑min intro"
+          href={`mailto:${personal.email}?subject=Schedule%20Intro`}
         />
       </div>
 
-      <div className={clsx("flex items-center gap-3 px-4 py-3 rounded-2xl border", appearanceClasses.panel)}>
-        <MapPin size={18} className={themeClasses.accentText} />
-        <div>
-          <p className={clsx("text-xs uppercase tracking-[0.2em]", appearanceClasses.muted)}>Location</p>
-          <p className={clsx("font-semibold", appearanceClasses.strong)}>{personal.location}</p>
+      <div className="rounded-3xl border border-stone-300 dark:border-stone-800 bg-white dark:bg-stone-900 p-10">
+        <div className="grid lg:grid-cols-[1.1fr_1fr] gap-8">
+          <div>
+            <h3 className="mb-3">Project brief template</h3>
+            <p className="text-stone-600 dark:text-stone-400 mb-4">
+              Include these points to speed up scoping and pricing.
+            </p>
+            <ul className="space-y-2 text-sm text-stone-600 dark:text-stone-400">
+              {[
+                "Goal / outcome you want to achieve",
+                "Timeline / deadline",
+                "Budget range",
+                "Current stack or tooling",
+                "Any must‑have requirements",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-2">
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full" style={{ backgroundColor: "var(--color-persona-primary)" }} />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-2xl border border-stone-200 dark:border-stone-800 bg-white/80 dark:bg-stone-900/80 p-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-stone-500 dark:text-stone-500">Availability</p>
+            <p className="mt-3 text-sm text-stone-600 dark:text-stone-400">{freelance.availabilityNote}</p>
+            <div className="mt-6 flex items-center gap-2 text-sm text-stone-600 dark:text-stone-400">
+              <MapPin className="w-4 h-4" style={{ color: "var(--color-persona-primary)" }} />
+              {personal.location}
+            </div>
+            <Link
+              href={`mailto:${personal.email}?subject=Project%20Brief`}
+              className="mt-6 px-6 py-3 rounded-2xl text-white font-medium hover:opacity-90 transition-all hover:-translate-y-0.5 shadow-lg inline-flex items-center gap-2"
+              style={{ backgroundColor: "var(--color-persona-primary)" }}
+            >
+              Send project brief
+            </Link>
+          </div>
         </div>
       </div>
+
+      <div className="mt-12 text-center">
+        <p className="text-sm text-stone-500 dark:text-stone-500">
+          Prefer async? Email works great — I’ll follow up with next steps.
+        </p>
       </div>
     </div>
   );
 }
 
 function ContactCard({
-  href,
+  icon,
   label,
   value,
-  icon,
-  appearanceClasses,
-  themeClasses,
-  focusRing,
-  external,
+  href,
 }: {
-  href: string;
+  icon: React.ReactNode;
   label: string;
   value: string;
-  icon: ReactNode;
-  appearanceClasses: ReturnType<typeof getAppearanceStyles>;
-  themeClasses: ReturnType<typeof getThemeStyles>;
-  focusRing: string;
-  external?: boolean;
+  href: string;
 }) {
   return (
-    <Link href={href} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined} className={focusRing}>
-      <div className={clsx("rounded-2xl border p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 transition-all hover:-translate-y-1", appearanceClasses.card, appearanceClasses.surfaceHover)}>
-        <div className="flex items-center gap-3 min-w-0">
-          <div className={clsx("h-10 w-10 rounded-full grid place-items-center", themeClasses.accentBg)}>
-            <span className="text-white">{icon}</span>
+    <Link href={href} className="group">
+      <div
+        className="p-6 rounded-2xl bg-white dark:bg-stone-900 border-2 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+        style={{ borderColor: "var(--color-stone-300)" }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = "var(--color-persona-primary)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = "var(--color-stone-300)";
+        }}
+      >
+        <div className="flex items-center gap-3">
+          <div className="inline-flex p-3 rounded-xl" style={{ backgroundColor: "var(--color-persona-primary-bg)" }}>
+            <span style={{ color: "var(--color-persona-primary)" }}>{icon}</span>
           </div>
           <div className="min-w-0">
-            <p className={clsx("text-xs uppercase tracking-[0.2em]", appearanceClasses.muted)}>{label}</p>
-            <p className={clsx("font-semibold break-words", appearanceClasses.strong)}>{value}</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-stone-500 dark:text-stone-500">{label}</p>
+            <p className="font-medium text-stone-800 dark:text-stone-200 break-words">{value}</p>
           </div>
         </div>
-        <span className={themeClasses.accentText}>↗</span>
       </div>
     </Link>
   );
 }
+

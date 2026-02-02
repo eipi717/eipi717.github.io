@@ -13,7 +13,7 @@ export const personalInfo = {
 
 export const cvData = {
   dev: {
-    themeColor: "blue",
+    themeColor: "violet",
     role: "Software Developer",
     tagline: "Building scalable applications with Python, Java, and Modern Web Tech.",
     summary: "Software Developer with 4+ years of experience in Web development, database programming, and cybersecurity practices. Experienced in designing scalable applications, SQL optimization, and API security. Skilled in leveraging AI models (Gemma, LLaMA) to standardize data and enhance automation.",

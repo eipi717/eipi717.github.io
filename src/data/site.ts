@@ -2,9 +2,26 @@ import { Terminal, ShieldCheck } from "lucide-react";
 
 export type PersonaKey = "dev" | "it";
 
+export type WorkLinks = {
+  live?: string;
+  repo?: string;
+  writeup?: string;
+};
+
+export type WorkItem = {
+  title: string;
+  slug: string;
+  category: PersonaKey;
+  tech: readonly string[];
+  desc: string;
+  caseStudy: readonly string[];
+  featured?: boolean;
+  links?: WorkLinks;
+};
+
 export const personal = {
   name: "Chun Him Ho (Nicholas)",
-  title: "Backend Developer | IT Support Specialist",
+  title: "Developer | IT Support Specialist",
   email: "nicholasriven717@gmail.com",
   phone: "437-660-3280",
   location: "Toronto, Ontario, Canada",
@@ -25,12 +42,11 @@ export const personal = {
 
 export const personas = {
   dev: {
-    role: "Backend Developer",
+    role: "Developer",
     verb: "drive impact",
     headline: "Backend systems that scale.",
     tagline: "APIs, automation, and data pipelines that cut manual effort and improve reliability.",
     summary: "Backend engineer focused on resilient services, automation, and data accuracy. I build systems that are easy to operate, document, and extend.",
-    resume: "/assets/Resume_ChunHim_Ho_Nicholas_DEV.pdf",
     highlights: [
       "API design with clear contracts, observability, and secure defaults.",
       "Automation workflows that reduce repetitive manual work.",
@@ -70,7 +86,6 @@ export const personas = {
     headline: "Infrastructure that stays online.",
     tagline: "Network hardening, endpoint security, and on-site delivery that keep teams productive.",
     summary: "IT specialist focused on uptime, security, and fast response. I harden networks, manage endpoints, and document systems so support stays reliable.",
-    resume: "/assets/Resume_ChunHim_Ho_Nicholas_IT.docx.pdf",
     highlights: [
       "Firewall, VPN, and VLAN hardening aligned to compliance needs.",
       "Proactive monitoring and backups to reduce downtime risk.",
@@ -197,98 +212,66 @@ export const experiences = [
     company: "FutureSight Inc.",
     role: "Contract Developer",
     date: "Mar 2024 - May 2024",
-    category: "dev",
-    order: 1,
+    category: "it",
+    order: 3,
     bullets: [
-      "Implemented a web scraping tool using a large language model to automate summarization and database updates via REST APIs for marketing solutions.",
+      "Implemented a web scraper tool using a large language model to automate information summarization and database updates via RESTful API, enabling clients to tailor marketing solutions.",
     ],
   },
   {
-    company: "Lively Impact Technology Limited",
-    role: "Software Developer (Part-time)",
-    date: "Aug 2023 - May 2024",
+    company: "Technethon",
+    role: "Junior IT Technician",
+    date: "May 2024 - Present",
+    category: "dev",
+    order: 1,
+    bullets: [
+      "Provided infrastructure support for 10+ clients across healthcare, manufacturing, and property management; implemented security measures to improve operational efficiency and cybersecurity.",
+      "Developed automation scripts and tooling to support infrastructure configuration and deployment consistency.",
+      "Assisted in designing security-camera system layouts and role-based access control models.",
+      "Contributed to internal documentation and operational tooling improvements.",
+    ],
+  },
+  {
+    company: "FutureSight Inc.",
+    role: "Contract Developer",
+    date: "Mar 2024 - May 2024",
     category: "dev",
     order: 2,
     bullets: [
-      "Maintained and expanded Selenium + BeautifulSoup scrapers for 40+ food-recall sites, eliminating manual collection.",
-      "Authored and updated API specifications and UAT plans to align releases with client requirements.",
-      "Supported release testing and bug fixes to keep client dashboards reliable.",
+      "Developed AI-powered tools to analyze client growth and enhance marketing research, improving automation for data processing.",
+      "Developed Python-based automation tools to support competitive intelligence and marketing research.",
+      "Built automated web scraping and data processing pipelines integrated with backend systems via RESTful APIs.",
+      "Implemented LLM-powered summarization workflows to automate data analysis and reporting.",
+      "Collaborated in Agile sprints to deliver features and maintain technical documentation.",
     ],
   },
   {
     company: "Lively Impact Technology Limited",
     role: "Software Developer",
-    date: "Aug 2022 - Jul 2023",
+    date: "Aug 2022 - May 2024",
     category: "dev",
     order: 3,
     bullets: [
-      "Built a data processing system with Spring Boot and Apache Flink, including an interactive UI for 3B+ records.",
-      "Troubleshot a predictive churn model for a telecom client, processing 1B+ data points to improve accuracy.",
-      "Developed Selenium + BeautifulSoup scrapers for 40+ food-recall sites to remove manual data collection.",
-      "Built core services for a social tracking system with sentiment analysis and dashboards using React and Spring Boot.",
-    ],
-  },
-  {
-    company: "WildFaces.ai",
-    role: "AI Specialist",
-    date: "May 2022 - Aug 2022",
-    category: "dev",
-    order: 4,
-    bullets: [
-      "Researched the correlation between facial angles and gender identification.",
-      "Implemented OpenCV + Python experiments achieving 60%+ accuracy in predictive analysis.",
-      "Gathered and curated facial datasets to improve model quality.",
-    ],
-  },
-  {
-    company: "M Learning",
-    role: "Tutor",
-    date: "Oct 2021 - May 2022",
-    category: "dev",
-    order: 5,
-    bullets: [
-      "Developed and customized teaching materials for primary and secondary students.",
-      "Assessed learning needs and created tailored education plans aligned to goals.",
-      "Tracked student progress and provided consistent feedback to students and parents.",
-      "Maintained detailed records of achievements to support long-term development.",
-    ],
-  },
-  {
-    company: "Pi Innovation",
-    role: "STEM Intern",
-    date: "Jun 2021 - Aug 2021",
-    category: "dev",
-    order: 6,
-    bullets: [
-      "Crafted interactive teaching materials to increase hands-on learning.",
-      "Delivered 3D printing tutorials using TinkerCAD.",
-      "Taught programming with Micro:Bit to build coding fundamentals.",
-      "Designed a STEM-focused curriculum for primary education.",
-      "Taught STEM courses centered on science and logic.",
-    ],
-  },
-  {
-    company: "The Hong Kong Polytechnic University",
-    role: "Student Assistant",
-    date: "May 2018 - Aug 2019",
-    category: "dev",
-    order: 7,
-    bullets: [
-      "Mentored college students in calculus, statistics, and linear algebra.",
-      "Taught an enhancement course to improve mastery of abstract concepts and raise pass rates.",
+      "Collaborated with government clients to build a Selenium-based web scraping tool for 50+ food-recall sites, eliminating ~3 hours of manual collection per day.",
+      "Designed and executed comprehensive RESTful API specifications and User Acceptance Testing (UAT) plans to align delivery with client requirements.",
+      "Implemented JWT authentication to secure API endpoints and prevent vulnerabilities.",
+      "Built a social tracking system with sentiment analysis and dashboards using React and Spring Boot (Java 8+), enabling real-time brand reputation monitoring.",
+      "Developed backend applications using Spring Boot to support data ingestion and processing workflows.",
     ],
   },
 ] as const;
 
-export const projects = [
+export const projects: readonly WorkItem[] = [
   {
     title: "PriceMatchAPI",
     slug: "pricematchapi",
     category: "dev",
+    featured: true,
     tech: ["Python", "FastAPI", "Selenium", "Ollama (Gemma 2)"],
     desc: "Automated price-tracking API that standardizes product names with LLMs.",
-    link: "https://github.com/eipi717",
-    linkLabel: "GitHub",
+    links: {
+      repo: "https://github.com/eipi717",
+    },
     caseStudy: [
       "Goal: automate price tracking while normalizing product naming.",
       "Delivery: API endpoints supported by LLM-assisted normalization.",
@@ -299,10 +282,12 @@ export const projects = [
     title: "Church Management App",
     slug: "church-management-app",
     category: "dev",
+    featured: true,
     tech: ["Flutter", "Dart", "Auth API"],
     desc: "Cross-platform booking and announcements system with authenticated access.",
-    link: "https://github.com/eipi717",
-    linkLabel: "GitHub",
+    links: {
+      repo: "https://github.com/eipi717",
+    },
     caseStudy: [
       "Goal: centralize bookings and announcements across devices.",
       "Delivery: authenticated Flutter experience with API-backed data.",
@@ -313,10 +298,12 @@ export const projects = [
     title: "Secure Network Deployment",
     slug: "secure-network-deployment",
     category: "it",
+    featured: true,
     tech: ["Sophos XG", "VLAN", "DMZ"],
     desc: "Segmented VLAN topology protecting 100+ cameras via DMZ isolation.",
-    link: "https://www.linkedin.com/in/nicholaschho/",
-    linkLabel: "LinkedIn",
+    links: {
+      writeup: "https://www.linkedin.com/in/nicholaschho/",
+    },
     caseStudy: [
       "Goal: isolate camera networks and reduce security risk.",
       "Delivery: segmented VLAN topology with firewall policy tuning.",
@@ -327,10 +314,12 @@ export const projects = [
     title: "Incident Playbooks",
     slug: "incident-playbooks",
     category: "it",
+    featured: true,
     tech: ["PowerShell", "Intune", "O365"],
     desc: "Automated remediation scripts for onboarding, patching, and device recovery.",
-    link: "https://www.linkedin.com/in/nicholaschho/",
-    linkLabel: "LinkedIn",
+    links: {
+      writeup: "https://www.linkedin.com/in/nicholaschho/",
+    },
     caseStudy: [
       "Goal: speed up onboarding, patching, and recovery workflows.",
       "Delivery: scripted playbooks aligned to device management.",
