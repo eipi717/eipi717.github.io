@@ -1,20 +1,15 @@
 import type { Mode } from "@/context/ModeContext";
 
+type FreelanceStat = {
+  label: string;
+  value: string;
+};
+
 export const freelance = {
   availability: "Open for new projects",
   stats: {
-    dev: [
-      { label: "Projects delivered", value: "28+" },
-      { label: "Avg. delivery", value: "3–6 weeks" },
-      { label: "Repeat clients", value: "62%" },
-      { label: "Client satisfaction", value: "4.9/5" },
-    ],
-    it: [
-      { label: "Deployments completed", value: "45+" },
-      { label: "Avg. response time", value: "< 2 hrs" },
-      { label: "Repeat clients", value: "—" },
-      { label: "Client satisfaction", value: "4.8/5" },
-    ],
+    dev: [] as FreelanceStat[],
+    it: [] as FreelanceStat[],
   },
   services: {
     dev: [
@@ -29,6 +24,10 @@ export const freelance = {
       {
         title: "System Hardening",
         desc: "Observability, performance tuning, and security best practices.",
+      },
+      {
+        title: "Website Development",
+        desc: "Modernizing websites for professional institutions — including a financial institution's full redesign to a clean, contemporary look.",
       },
     ],
     it: [
@@ -50,19 +49,16 @@ export const freelance = {
     dev: [
       {
         name: "Starter",
-        price: "$2.5k",
         desc: "Small feature or automation sprint.",
         items: ["Discovery + plan", "1–2 core deliverables", "Handoff docs"],
       },
       {
         name: "Build",
-        price: "$6k–$12k",
-        desc: "MVP or service build in 3–6 weeks.",
+        desc: "MVP or service build in 1–2 weeks.",
         items: ["Architecture + API design", "Testing + monitoring", "Deployment support"],
       },
       {
         name: "Retainer",
-        price: "$2k/mo",
         desc: "Ongoing improvements & support.",
         items: ["Priority fixes", "Monthly enhancements", "Analytics review"],
       },
@@ -70,19 +66,16 @@ export const freelance = {
     it: [
       {
         name: "Starter",
-        price: "$1.5k",
         desc: "Audit + quick fixes for stability.",
         items: ["Network review", "Security checklist", "Action plan"],
       },
       {
         name: "Rollout",
-        price: "$4k–$9k",
         desc: "Infrastructure upgrade or deployment.",
         items: ["On‑site setup", "Device hardening", "Runbooks"],
       },
       {
         name: "Retainer",
-        price: "$1.2k/mo",
         desc: "Ongoing support & monitoring.",
         items: ["Priority support", "Patch cadence", "Quarterly reviews"],
       },
@@ -95,7 +88,7 @@ export const freelance = {
     },
     {
       title: "Plan",
-      desc: "I provide a scope, timeline, and fixed quote or milestone plan.",
+      desc: "I provide a scope, timeline, and milestone plan.",
     },
     {
       title: "Build",
@@ -106,28 +99,14 @@ export const freelance = {
       desc: "Handoff docs, training, and support for a smooth transition.",
     },
   ],
-  testimonials: [
-    {
-      quote: "Delivered ahead of schedule and improved our API reliability immediately.",
-      author: "CTO, Northbridge Retail",
-    },
-    {
-      quote: "Clear communication, zero surprises, and excellent documentation.",
-      author: "Head of Ops, Ridgeway Logistics",
-    },
-    {
-      quote: "We reduced tickets by 40% within a month of the rollout.",
-      author: "IT Manager, Medstone Clinic",
-    },
-  ],
   faqs: [
     {
       q: "How fast can you start?",
       a: "Typically within 1–2 weeks depending on scope. I’ll confirm availability after the intro call.",
     },
     {
-      q: "Do you work fixed‑price or hourly?",
-      a: "Most projects are fixed‑price with milestones. For ongoing work, I offer a monthly retainer.",
+      q: "How are projects structured?",
+      a: "Most projects use clear milestones. For ongoing work, I offer a monthly retainer.",
     },
     {
       q: "Can you work with our existing stack?",

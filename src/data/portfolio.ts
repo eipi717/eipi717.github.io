@@ -101,13 +101,6 @@ export const projects = [
     desc: "Deep learning project using Transfer Learning (VGG16, ResNet-50) to classify insects with a GUI frontend.",
     link: "#"
   },
-  {
-    title: "Secure Network Deployment",
-    category: "it",
-    tech: ["Sophos XG", "VLAN", "DMZ"],
-    desc: "Designed segmented VLAN topology and secured 100+ cameras via DMZ isolation, reducing incidents by 40%.",
-    link: "#"
-  }
 ];
 
 export const education = [
