@@ -5,6 +5,7 @@ import { personal } from "@/data/site";
 import { motion, useReducedMotion } from "framer-motion";
 import { Calendar, Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 export default function ContactPage() {
   const shouldReduceMotion = useReducedMotion() ?? false;
@@ -37,7 +38,7 @@ export default function ContactPage() {
         initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.15 }}
-        className="grid md:grid-cols-3 gap-6 mb-12"
+        className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-12"
       >
         <ContactCard
           icon={<Mail className="w-5 h-5" />}
@@ -132,37 +133,57 @@ function ContactCard({
   index,
   shouldReduceMotion,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   label: string;
   value: string;
   href: string;
   index: number;
   shouldReduceMotion: boolean;
 }) {
+  const isEmail = label === "Email";
+  const isSchedule = label === "Schedule";
+
   return (
     <motion.div
       initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.4, delay: 0.2 + index * 0.08 }}
+      className="h-full"
     >
-      <Link href={href} className="group block">
+      <Link href={href} className="group block h-full">
         <div
-          className="p-6 rounded-2xl bg-white dark:bg-stone-900 border-2 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-          style={{ borderColor: "var(--color-stone-300)" }}
+          className="h-full min-h-[164px] p-6 rounded-3xl border bg-white/90 dark:bg-stone-900/85 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+          style={{
+            borderColor: "color-mix(in srgb, var(--color-persona-primary) 16%, var(--color-stone-300))",
+            backgroundImage: "linear-gradient(125deg, var(--color-persona-primary-bg) 0%, transparent 58%)",
+          }}
           onMouseEnter={(e) => {
             e.currentTarget.style.borderColor = "var(--color-persona-primary)";
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "var(--color-stone-300)";
+            e.currentTarget.style.borderColor = "color-mix(in srgb, var(--color-persona-primary) 16%, var(--color-stone-300))";
           }}
         >
-          <div className="flex items-center gap-3">
-            <div className="inline-flex p-3 rounded-xl" style={{ backgroundColor: "var(--color-persona-primary-bg)" }}>
+          <div className="h-full flex items-start gap-4">
+            <div
+              className="inline-flex p-3 rounded-2xl border mt-0.5"
+              style={{
+                backgroundColor: "var(--color-persona-primary-bg)",
+                color: "var(--color-persona-primary)",
+                borderColor: "color-mix(in srgb, var(--color-persona-primary) 45%, transparent)",
+              }}
+            >
               <span style={{ color: "var(--color-persona-primary)" }}>{icon}</span>
             </div>
             <div className="min-w-0">
-              <p className="text-xs uppercase tracking-[0.2em] text-stone-500 dark:text-stone-500">{label}</p>
-              <p className="font-medium text-stone-800 dark:text-stone-200 break-words">{value}</p>
+              <p className="text-[11px] uppercase tracking-[0.22em] text-stone-500/90 dark:text-stone-500">{label}</p>
+              <p
+                className={`mt-2 font-semibold text-stone-900 dark:text-stone-100 group-hover:text-stone-950 dark:group-hover:text-white transition-colors leading-snug ${
+                  isEmail ? "text-[13px] whitespace-nowrap" : isSchedule ? "text-xl" : "text-2xl leading-tight"
+                }`}
+              >
+                {value}
+              </p>
             </div>
           </div>
         </div>

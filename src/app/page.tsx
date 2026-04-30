@@ -2,15 +2,15 @@
 
 import { useMode } from "@/context/ModeContext";
 import { freelance, getFreelanceServices, getFreelanceStats } from "@/data/freelance";
-import { personal, personas, projects } from "@/data/site";
+import { personal, personas } from "@/data/site";
 import type { PersonaKey } from "@/data/site";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, CheckCircle2, ExternalLink, Globe, MapPin, Monitor, Network, Server, Shield, Wrench, Zap } from "lucide-react";
+import { ArrowRight, CheckCircle2, Globe, MapPin, Monitor, Network, Server, Wrench, Zap } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
 
 const SERVICE_ICONS: Record<PersonaKey, React.ComponentType<{ className?: string; style?: React.CSSProperties }>[]> = {
-  dev: [Server, Zap, Shield, Globe],
+  dev: [Globe, Zap, Server],
   it: [Network, Monitor, Wrench],
 };
 
@@ -20,16 +20,14 @@ export default function Home() {
   const PersonaIcon = persona.icon;
   const stats = getFreelanceStats(mode);
   const services = getFreelanceServices(mode);
-  const featured = projects.filter((p) => p.category === mode && p.featured).slice(0, 2);
   const shouldReduceMotion = useReducedMotion() ?? false;
-  const topSkills = persona.skills.slice(0, 2).flatMap((g) => [...g.items].slice(0, 3)).slice(0, 5);
 
   return (
     <div className="relative min-h-screen overflow-hidden">
       <HeroSection
+        mode={mode}
         personaRole={persona.role}
         personaTagline={persona.tagline}
-        topSkills={topSkills}
         shouldReduceMotion={shouldReduceMotion}
       />
 
@@ -66,10 +64,11 @@ export default function Home() {
               <span className="avail-dot" />
               <span className="text-sm font-medium">{freelance.availability}</span>
             </div>
-            <h2>Hire a partner who ships with clarity.</h2>
+            <h2>{mode === "dev" ? "Ship product with less friction." : "Stabilize operations without guesswork."}</h2>
             <p className="text-stone-600 dark:text-stone-400">
-              I help teams deliver reliable systems, automate workflows, and document everything so you can scale
-              without surprises.
+              {mode === "dev"
+                ? "I help teams build reliable applications, automate workflows, and ship with clear handoff documentation."
+                : "I help teams harden infrastructure, standardize support operations, and document systems for smoother scale."}
             </p>
             <div className="grid gap-3">
               {persona.highlights.map((item) => (
@@ -167,74 +166,6 @@ export default function Home() {
         </div>
       </section>
 
-      {mode !== "it" && featured.length > 0 && (
-        <section className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-          <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5 }}
-            viewport={{ once: true, margin: "-80px" }}
-            className="flex items-center justify-between mb-8"
-          >
-            <h2>{"Projects"}</h2>
-            <Link
-              href="/projects"
-              className="inline-flex items-center gap-2 text-sm font-medium hover:gap-3 transition-all"
-              style={{ color: "var(--color-persona-primary)" }}
-            >
-              View all
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {featured.map((project, index) => {
-              const externalHref = project.links?.live ?? project.links?.repo ?? project.links?.writeup ?? "";
-              return (
-                <motion.div
-                  key={project.slug}
-                  initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.4, delay: index * 0.1 }}
-                  viewport={{ once: true, margin: "-80px" }}
-                  className="group rounded-2xl bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-800 p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-                >
-                  <div className="flex items-start justify-between gap-4 mb-3">
-                    <h4>{project.title}</h4>
-                    {externalHref && (
-                      <a
-                        href={externalHref}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 transition-colors flex-shrink-0"
-                        aria-label={`${project.title} external link`}
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    )}
-                  </div>
-                  <p className="text-sm text-stone-600 dark:text-stone-400 mb-4">{project.desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 rounded-full text-xs font-mono border"
-                        style={{
-                          borderColor: "var(--color-persona-primary)",
-                          color: "var(--color-persona-primary)",
-                          backgroundColor: "var(--color-persona-primary-bg)",
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </section>
-      )}
-
       <section className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
@@ -281,16 +212,20 @@ export default function Home() {
 }
 
 function HeroSection({
+  mode,
   personaRole,
   personaTagline,
-  topSkills,
   shouldReduceMotion,
 }: {
+  mode: PersonaKey;
   personaRole: string;
   personaTagline: string;
-  topSkills: string[];
   shouldReduceMotion: boolean;
 }) {
+  const heroSkills = getFreelanceServices(mode).map((service) => service.title);
+  const availabilityText =
+    mode === "dev" ? "Available for freelance development projects" : "Available for freelance IT operations projects";
+
   return (
     <section className="relative pt-32 pb-20 overflow-hidden">
       <div className="absolute inset-0 -z-10">
@@ -383,25 +318,23 @@ function HeroSection({
               />
 
               <div className="flex items-center gap-4 mb-5 relative">
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-bold text-white shadow-lg flex-shrink-0"
-                  style={{ background: "linear-gradient(135deg, var(--color-persona-primary), var(--color-persona-primary-light))" }}
-                >
-                  NH
-                </div>
+                <img
+                  src="/avatar.jpg"
+                  alt="Nicholas Ho"
+                  className="w-14 h-14 rounded-2xl object-cover shadow-lg flex-shrink-0"
+                />
                 <div>
                   <p className="font-semibold text-base leading-tight">Nicholas Ho</p>
-                  <p className="text-sm text-stone-500 dark:text-stone-400 mt-0.5">{personaRole}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 mb-5 relative">
                 <span className="avail-dot flex-shrink-0" />
-                <span className="text-sm font-medium text-emerald-700 dark:text-emerald-400">Available for projects</span>
+                <span className="text-sm font-medium text-emerald-700 dark:text-emerald-400">{availabilityText}</span>
               </div>
 
               <div className="flex flex-wrap gap-1.5 relative">
-                {topSkills.map((skill) => (
+                {heroSkills.map((skill) => (
                   <span
                     key={skill}
                     className="px-2.5 py-1 rounded-full text-xs font-mono border"

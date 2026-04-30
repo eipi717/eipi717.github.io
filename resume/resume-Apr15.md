@@ -24,7 +24,7 @@ Certified in Cybersecurity
 
 Claude Code in Action
 
-Chun Him Ho
+Nicholas Ho
 
 Application Developer | IT Solution | AI Engineer | Web Developer
 North York, Ontario, Canada
@@ -415,4 +415,3 @@ Bachelor of Engineering in Computer Engineering, Computer
 Engineering · (September 2018 - January 2023)
 
 Page 7 of 7
-

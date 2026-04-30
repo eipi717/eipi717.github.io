@@ -17,7 +17,7 @@ export default function Experience() {
       <div className="mb-16 text-center">
         <h2 className="mb-4">Experience</h2>
         <p className="text-xl text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-          Roles and outcomes aligned with {persona.role.toLowerCase()} work.
+          Roles and outcomes aligned with {persona.role.toLowerCase()} priorities.
         </p>
       </div>
 
@@ -72,4 +72,3 @@ export default function Experience() {
     </div>
   );
 }
-

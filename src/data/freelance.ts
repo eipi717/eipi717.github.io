@@ -14,20 +14,16 @@ export const freelance = {
   services: {
     dev: [
       {
-        title: "Backend & APIs",
-        desc: "Design and build robust APIs with clear contracts, auth, and monitoring.",
+        title: "Website Design",
+        desc: "Design modern, conversion-focused websites with clear structure, strong UX, and responsive layouts.",
       },
       {
         title: "Automation & Data",
         desc: "Automate repetitive workflows, data scraping, and reliable pipelines.",
       },
       {
-        title: "System Hardening",
-        desc: "Observability, performance tuning, and security best practices.",
-      },
-      {
         title: "Website Development",
-        desc: "Modernizing websites for professional institutions — including a financial institution's full redesign to a clean, contemporary look.",
+        desc: "Build or modernize fast, maintainable websites with clean architecture, responsive UI, and CMS-ready content workflows.",
       },
     ],
     it: [
@@ -117,7 +113,7 @@ export const freelance = {
       a: "Discovery → plan → build → launch, with weekly updates and demos.",
     },
   ],
-  availabilityNote: "Currently booking new projects for next month.",
+  availabilityNote: "Currently booking new projects starting June 2026.",
 };
 
 export function getFreelanceStats(mode: Mode) {

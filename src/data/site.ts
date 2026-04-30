@@ -20,7 +20,7 @@ export type WorkItem = {
 };
 
 export const personal = {
-  name: "Chun Him Ho (Nicholas)",
+  name: "Nicholas Ho",
   title: "Software Developer & IT Specialist",
   email: "nicholasriven717@gmail.com",
   phone: "437-660-3280",
