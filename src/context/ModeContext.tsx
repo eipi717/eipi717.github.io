@@ -15,7 +15,7 @@ const ModeContext = createContext<ModeContextType | undefined>(undefined);
 
 export function ModeProvider({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<Mode>('dev');
-  const [appearance, setAppearance] = useState<Appearance>('dark');
+  const [appearance, setAppearance] = useState<Appearance>('light');
 
   useEffect(() => {
     const storedMode = localStorage.getItem('portfolio_mode') as Mode | null;

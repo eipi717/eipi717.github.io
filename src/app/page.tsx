@@ -5,7 +5,7 @@ import { freelance, getFreelanceServices, getFreelanceStats } from "@/data/freel
 import { personal, personas } from "@/data/site";
 import type { PersonaKey } from "@/data/site";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, CheckCircle2, Globe, MapPin, Monitor, Network, Server, Wrench, Zap } from "lucide-react";
+import { ArrowRight, CheckCircle2, ExternalLink, FileText, Globe, MapPin, Monitor, Network, Server, Wrench, Zap } from "lucide-react";
 import Link from "next/link";
 import type React from "react";
 
@@ -33,14 +33,14 @@ export default function Home() {
 
       {stats.length > 0 && (
         <section className="max-w-7xl mx-auto px-6 lg:px-8 pb-10">
-          <div className="grid md:grid-cols-4 gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
                 initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={shouldReduceMotion ? { duration: 0 } : { delay: index * 0.06 }}
-                className="rounded-2xl border border-stone-300 dark:border-stone-800 bg-white/80 dark:bg-stone-900/80 p-5 backdrop-blur"
+                className="w-full sm:w-[260px] rounded-2xl border border-stone-300 dark:border-stone-800 bg-white/80 dark:bg-stone-900/80 p-5 backdrop-blur"
                 style={{ borderLeftWidth: "3px", borderLeftColor: "var(--color-persona-primary)" }}
               >
                 <p className="text-xs uppercase tracking-[0.2em] text-stone-500 dark:text-stone-500">{stat.label}</p>
@@ -164,6 +164,138 @@ export default function Home() {
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
+      </section>
+
+      <section className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5 }}
+          viewport={{ once: true, margin: "-80px" }}
+          className="text-center mb-12"
+        >
+          <h2 className="mb-4">Selected Work</h2>
+          <p className="text-xl text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
+            {mode === "dev"
+              ? "Recent work — with more case studies on the way."
+              : "Detailed case studies are in the works."}
+          </p>
+        </motion.div>
+        <motion.div
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5 }}
+          viewport={{ once: true, margin: "-80px" }}
+        >
+          {mode === "dev" ? (
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="group p-8 rounded-3xl bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-800 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                  style={{ background: "linear-gradient(135deg, var(--color-persona-primary-bg) 0%, transparent 70%)" }}
+                />
+                <div className="relative">
+                  <span
+                    className="inline-block px-3 py-1 rounded-full text-xs font-mono border mb-4"
+                    style={{
+                      borderColor: "var(--color-persona-primary)",
+                      color: "var(--color-persona-primary)",
+                      backgroundColor: "var(--color-persona-primary-bg)",
+                    }}
+                  >
+                    Website Refresh
+                  </span>
+                  <h3 className="text-xl font-semibold mb-2">Fairbank Investment Management</h3>
+                  <p className="text-sm text-stone-600 dark:text-stone-400 mb-5">
+                    Refreshed and redesigned the investment firm&apos;s corporate website — a modern,
+                    cleaner layout with clearer structure and a fully responsive build.
+                  </p>
+                  <a
+                    href="https://www.fairbankim.ca"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm font-medium hover:gap-3 transition-all"
+                    style={{ color: "var(--color-persona-primary)" }}
+                  >
+                    Visit live site
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+
+              <div
+                className="rounded-3xl border border-dashed border-stone-300 dark:border-stone-700 p-8 flex flex-col items-center justify-center text-center relative overflow-hidden"
+                style={{ background: "linear-gradient(135deg, var(--color-persona-primary-bg) 0%, var(--color-background) 60%)" }}
+              >
+                <div className="inline-flex p-3 rounded-2xl mb-4" style={{ backgroundColor: "var(--color-persona-primary-bg)" }}>
+                  <FileText className="w-6 h-6" style={{ color: "var(--color-persona-primary)" }} />
+                </div>
+                <span
+                  className="inline-block px-3 py-1 rounded-full text-xs font-mono border mb-4"
+                  style={{
+                    borderColor: "var(--color-persona-primary)",
+                    color: "var(--color-persona-primary)",
+                    backgroundColor: "var(--color-persona-primary-bg)",
+                  }}
+                >
+                  Stay tuned · TBC
+                </span>
+                <h4 className="text-base font-semibold mb-2">More case studies coming soon</h4>
+                <p className="text-sm text-stone-600 dark:text-stone-400 mb-5 max-w-xs">
+                  More write-ups are on the way. Reach out and I&apos;ll walk you through relevant work.
+                </p>
+                <Link
+                  href={`mailto:${personal.email}?subject=Ask%20about%20your%20work`}
+                  className="inline-flex items-center gap-2 text-sm font-medium hover:gap-3 transition-all"
+                  style={{ color: "var(--color-persona-primary)" }}
+                >
+                  Ask about my work
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <div
+              className="rounded-3xl border border-dashed border-stone-300 dark:border-stone-700 p-10 md:p-14 text-center relative overflow-hidden"
+              style={{ background: "linear-gradient(135deg, var(--color-persona-primary-bg) 0%, var(--color-background) 60%)" }}
+            >
+              <div
+                className="absolute top-0 left-1/2 -translate-x-1/2 w-[480px] h-[160px] rounded-full blur-3xl opacity-15 pointer-events-none"
+                style={{ backgroundColor: "var(--color-persona-primary)" }}
+              />
+              <div className="relative">
+                <div className="inline-flex p-3 rounded-2xl mb-5" style={{ backgroundColor: "var(--color-persona-primary-bg)" }}>
+                  <FileText className="w-6 h-6" style={{ color: "var(--color-persona-primary)" }} />
+                </div>
+                <div className="mb-4">
+                  <span
+                    className="inline-block px-3 py-1 rounded-full text-xs font-mono border"
+                    style={{
+                      borderColor: "var(--color-persona-primary)",
+                      color: "var(--color-persona-primary)",
+                      backgroundColor: "var(--color-persona-primary-bg)",
+                    }}
+                  >
+                    Stay tuned · TBC
+                  </span>
+                </div>
+                <h3 className="mb-4">Case studies coming soon</h3>
+                <p className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto mb-6">
+                  I&apos;m putting together write-ups of recent deployments — the design, hardening, and
+                  outcomes. In the meantime, reach out and I&apos;ll walk you through relevant work.
+                </p>
+                <Link
+                  href={`mailto:${personal.email}?subject=Ask%20about%20your%20work`}
+                  className="inline-flex items-center gap-2 text-sm font-medium hover:gap-3 transition-all"
+                  style={{ color: "var(--color-persona-primary)" }}
+                >
+                  Ask about my work
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          )}
+        </motion.div>
       </section>
 
       <section className="max-w-7xl mx-auto px-6 lg:px-8 py-12">

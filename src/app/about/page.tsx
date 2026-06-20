@@ -99,12 +99,24 @@ export default function About() {
           <h4 className="mb-4">Certifications</h4>
           <div className="space-y-3">
             {personal.certifications.map((cert) => (
-              <div key={cert} className="flex items-start gap-2">
+              <div key={cert.name} className="flex items-start gap-2">
                 <span
                   className="mt-2 h-1.5 w-1.5 rounded-full flex-shrink-0"
                   style={{ backgroundColor: "var(--color-persona-primary)" }}
                 />
-                <div className="font-medium text-sm">{cert}</div>
+                {cert.link ? (
+                  <a
+                    href={cert.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-sm hover:underline"
+                    style={{ color: "var(--color-persona-primary)" }}
+                  >
+                    {cert.name}
+                  </a>
+                ) : (
+                  <div className="font-medium text-sm">{cert.name}</div>
+                )}
               </div>
             ))}
           </div>

@@ -8,8 +8,18 @@ type FreelanceStat = {
 export const freelance = {
   availability: "Open for new projects",
   stats: {
-    dev: [] as FreelanceStat[],
-    it: [] as FreelanceStat[],
+    dev: [
+      { label: "Years Experience", value: "4+" },
+      { label: "Companies", value: "5" },
+      { label: "Saved Daily", value: "3 hrs" },
+      { label: "Legacy Upgrade", value: "Java 8→21" },
+    ] as FreelanceStat[],
+    it: [
+      { label: "Clients Supported", value: "10+" },
+      { label: "Systems Secured", value: "50+" },
+      { label: "Faster Rollouts", value: "70%" },
+      { label: "Years On-Site", value: "2+" },
+    ] as FreelanceStat[],
   },
   services: {
     dev: [

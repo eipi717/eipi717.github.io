@@ -53,6 +53,52 @@ export default function ServicesPage() {
         ))}
       </div>
 
+      <div className="mb-16">
+        <div className="text-center mb-10">
+          <h3 className="mb-3">How it works</h3>
+          <p className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
+            A simple, predictable path from first call to launch.
+          </p>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {freelance.process.map((step, index) => (
+            <div
+              key={step.title}
+              className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-800"
+            >
+              <div
+                className="flex items-center justify-center w-9 h-9 rounded-full text-sm font-semibold mb-4"
+                style={{ backgroundColor: "var(--color-persona-primary-bg)", color: "var(--color-persona-primary)" }}
+              >
+                {index + 1}
+              </div>
+              <h4 className="text-base font-semibold mb-2">{step.title}</h4>
+              <p className="text-sm text-stone-600 dark:text-stone-400">{step.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mb-16">
+        <div className="text-center mb-10">
+          <h3 className="mb-3">FAQ</h3>
+          <p className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
+            Common questions before we kick off.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          {freelance.faqs.map((faq) => (
+            <div
+              key={faq.q}
+              className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-300 dark:border-stone-800"
+            >
+              <h4 className="text-base font-semibold mb-2">{faq.q}</h4>
+              <p className="text-sm text-stone-600 dark:text-stone-400">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="rounded-3xl border border-stone-300 dark:border-stone-800 bg-white dark:bg-stone-900 p-10 text-center">
         <h3 className="mb-4">How we start</h3>
         <p className="text-stone-600 dark:text-stone-400 mb-6">

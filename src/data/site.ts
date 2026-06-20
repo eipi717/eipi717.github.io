@@ -34,9 +34,10 @@ export const personal = {
     { school: "The University of Hong Kong", degree: "BEng (Computer Engineering)", detail: "Minor in Mathematics", date: "2018 - 2023" },
   ],
   certifications: [
-    "ISC2 Certified in Cybersecurity",
-    "Microsoft Azure Fundamentals",
-    "CompTIA Security+ (in progress)",
+    { name: "ISC2 Certified in Cybersecurity", link: "https://www.credly.com/badges/effec4ec-76ad-4fc6-bfd2-ffbea26a30f3/public_url" },
+    { name: "CompTIA Security+", link: "https://www.credly.com/badges/12b26c2e-cbb5-4948-8755-d0235862e083/public_url" },
+    { name: "Microsoft Azure Fundamentals (AZ-900)", link: "https://learn.microsoft.com/api/credentials/share/en-us/NicholasHo-0596/943BCF08F2B2F19E?sharingId=22DB9D1A8A24BC2C" },
+    { name: "Claude Code in Action — Anthropic", link: "https://verify.skilljar.com/c/gau34isd4hq7" },
   ],
 };
 
